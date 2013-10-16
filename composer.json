@@ -1,0 +1,32 @@
+{
+  "name" : "gjerokrsteski/pimf",
+  "description" : "Tiny sample Blog using PIMF micro framework",
+  "version" : "1.7.0",
+  "license" : "BSD",
+  "minimum-stability" : "stable",
+  "keywords" : ["pimf", "blog"],
+  "support" : {
+    "email" : "gjero@krsteski.de",
+    "source" : "https://github.com/gjerokrsteski/pimf-blog"
+  },
+  "authors" : [
+    {
+      "name" : "Gjero Krsteski",
+      "email" : "gjero@krsteski.de",
+      "homepage" : "http://krsteski.de/",
+      "role" : "Developer"
+    }
+  ],
+  "require" : {
+    "php" : ">=5.3",
+    "gjerokrsteski/pimf-framework" : "1.7.*"
+  },
+  "require-dev" : {
+    "phpunit/phpunit" : ">=3.6"
+  },
+  "autoload" : {
+    "psr-0" : {
+      "" : "core/"
+    }
+  }
+}
