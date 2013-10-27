@@ -4,7 +4,7 @@
 | PIMF Application gateway/runner
 |--------------------------------------------------------------------------
 */
-require_once 'bootstrap.php';
+require_once 'app/bootstrap.app.php';
 
 Pimf_Application::run($_GET, $_POST, $_COOKIE);
 
