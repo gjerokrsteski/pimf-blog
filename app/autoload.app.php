@@ -37,7 +37,7 @@ spl_autoload_register(
 
     // load the class from the static heap of classes.
     if (isset($mappings[$cn])) {
-      return require __DIR__ . DIRECTORY_SEPARATOR .'app' . $mappings[$cn];
+      return require __DIR__ . DIRECTORY_SEPARATOR . $mappings[$cn];
     }
 
     // THE FALLBACK - against lazy developers!!!
