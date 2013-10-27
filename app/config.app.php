@@ -136,4 +136,4 @@ $config_app = array(
 
 );
 
-if(isset($config)) $config = $config + $config_app;
+if(isset($config)) $config = array_merge($config, $config_app);
