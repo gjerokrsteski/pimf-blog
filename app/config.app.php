@@ -65,6 +65,30 @@ $config_app = array(
   ),
 
   /*
+  |------------------------------------------------------------------------
+  | Bootstrapping and dependencies to php-version and extensions
+  |------------------------------------------------------------------------
+  */
+  'bootstrap' => array(
+    'expected' => array(
+      'php_version' => 5.3,
+      'extensions' => array('pdo', 'pdo_sqlite', 'date', 'reflection', 'session', 'json'),
+    ),
+    'local_temp_directory' => '/tmp/'
+  ),
+
+  /*
+  |------------------------------------------------------------------------
+  | Settings for the error handling behavior
+  |------------------------------------------------------------------------
+  */
+  'error' => array(
+    'ignore_levels' => array(E_USER_DEPRECATED),
+    'debug_info' => true,
+  	'log' => true,
+  ),
+
+  /*
   |--------------------------------------------------------------------------
   | Session settings
   |--------------------------------------------------------------------------
@@ -136,4 +160,5 @@ $config_app = array(
 
 );
 
-if(isset($config)) $config = array_merge($config, $config_app);
+// please do not edit the code below!!!
+if(isset($config)){$config = array_merge($config, $config_app);}
