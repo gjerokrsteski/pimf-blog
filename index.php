@@ -6,6 +6,8 @@
 */
 require_once 'app/bootstrap.app.php';
 
-Pimf_Application::run($_GET, $_POST, $_COOKIE);
+use \Pimf\Application as App;
 
-Pimf_Application::finish();
+App::run($_GET, $_POST, $_COOKIE);
+
+App::finish();

@@ -1,8 +1,12 @@
 <?php
+
+namespace MyFirstBlog\Model;
+use Pimf\Model\ToArray;
+
 /**
  * Class for data access
  */
-class MyFirstBlog_Model_Entry extends Pimf_Model_ToArray
+class Entry extends ToArray
 {
   protected $id;
 

@@ -1,5 +1,10 @@
 <?php
-class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
+namespace MyFirstBlog\Controller;
+
+use Pimf\Controller\Base, Pimf\View, Pimf\Registry, Pimf\Util\Validator, Pimf\Controller\Exception as Bomb,
+    Pimf\View\Json as ViewJson, Pimf\Cli\Io, MyFirstBlog\Model\Entry;
+
+class Blog extends Base
 {
   /**
    * A index action - this is a framework restriction!
@@ -10,12 +15,12 @@ class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
   }
 
   /**
-   * @param Pimf_View $view
+   * @param View $view
    * @return string
    */
-  protected function loadMainView(Pimf_View $view)
+  protected function loadMainView(View $view)
   {
-    echo new Pimf_View(
+    echo new View(
       'blog.phtml',
       array(
         'blog_title'   => 'This is my firs Blog with PIMF',
@@ -31,8 +36,8 @@ class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
   public function listentriesAction()
   {
     // use app/MyFirstBlog/_templates/list.phtml for viewing
-    $viewAllEntries = new Pimf_View('list.phtml');
-    $entries        = Pimf_Registry::get('em')->entry->getAll();
+    $viewAllEntries = new View('list.phtml');
+    $entries        = Registry::get('em')->entry->getAll();
 
     // assign data to the template
     $viewAllEntries->assign('entries', $entries);
@@ -43,22 +48,22 @@ class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
   /**
    * Renders a single entry from the list.
    *
-   * @throws Pimf_Controller_Exception
+   * @throws Controller_Exception
    */
   public function showentryAction()
   {
     // first we check the input-parameters which are send with GET http method.
-    $valid = new Pimf_Util_Validator($this->request->fromGet());
+    $valid = new Validator($this->request->fromGet());
 
     if (!$valid->digit('id') || !$valid->value('id', '>', 0)) {
-      throw new Pimf_Controller_Exception('not valid entry for "id"');
+      throw new Bomb('not valid entry for "id"');
     }
 
     // we open new view and
     // use app/MyFirstBlog/_templates/entry.phtml for viewing
-    $viewSingleEntry = new Pimf_View('article.phtml');
+    $viewSingleEntry = new View('article.phtml');
 
-    $entry = Pimf_Registry::get('em')->entry->find(
+    $entry = Registry::get('em')->entry->find(
       $this->request->fromGet()->get('id')
     );
 
@@ -66,7 +71,8 @@ class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
     $viewSingleEntry
       ->pump($entry->toArray())
       ->assign('back_link_title', 'Back to overview')
-      ->assign('delete_link_title', 'Delete this entry');
+      ->assign('delete_link_title', 'Delete this entry')
+      ->assign('json_link_title', 'Show as JSON');
 
     echo $this->loadMainView($viewSingleEntry);
   }
@@ -76,7 +82,7 @@ class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
    */
   public function deleteAction()
   {
-    Pimf_Registry::get('em')->entry->delete(
+    Registry::get('em')->entry->delete(
       $this->request->fromGet()->get('id')
     );
 
@@ -89,14 +95,14 @@ class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
   public function jsonAction()
   {
     // first we check the input-parameters which are send with GET http method.
-    $valid = new Pimf_Util_Validator($this->request->fromGet());
+    $valid = new Validator($this->request->fromGet());
 
     if (!$valid->digit('id') || !$valid->value('id', '>', 0)) {
-      throw new Pimf_Controller_Exception('not valid entry for "id"');
+      throw new Bomb('not valid entry for "id"');
     }
 
-    /* @var $em Pimf_EntityManager */
-    $em = Pimf_Registry::get('em');
+    /* @var $em EntityManager */
+    $em = Registry::get('em');
 
     // find entry by id
     $entry = $em->entry->find(
@@ -104,10 +110,10 @@ class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
     );
 
     // open new json view
-    $view = new Pimf_View_Json();
+    $view = new ViewJson();
 
     // pump all data to the view and render
-    $view->pump($entry)->render();
+    $view->pump($entry->toArray())->render();
   }
 
   /**
@@ -115,11 +121,11 @@ class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
    */
   public function insertCliAction()
   {
-    $title   = Pimf_Cli_Io::read('article title');
-    $content = Pimf_Cli_Io::read('article content');
+    $title   = Io::read('article title');
+    $content = Io::read('article content');
 
-    $res = Pimf_Registry::get('em')->entry->insert(
-      new MyFirstBlog_Model_Entry($title, $content)
+    $res = Registry::get('em')->entry->insert(
+      new Entry($title, $content)
     );
 
     var_dump($res);
@@ -130,12 +136,12 @@ class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
    */
   public function updateCliAction()
   {
-    $id      = Pimf_Cli_Io::read('article id', '/[1-9999]/');
-    $title   = Pimf_Cli_Io::read('article title');
-    $content = Pimf_Cli_Io::read('article content');
+    $id      = Io::read('article id', '/[1-9999]/');
+    $title   = Io::read('article title');
+    $content = Io::read('article content');
 
-    $em    = Pimf_Registry::get('em');
-    $entry = new MyFirstBlog_Model_Entry($title, $content);
+    $em    = Registry::get('em');
+    $entry = new Entry($title, $content);
 
     $entry = $em->entry->reflect($entry, $id);
 
@@ -149,31 +155,33 @@ class MyFirstBlog_Controller_Blog extends Pimf_Controller_Abstract
    */
   public function deleteCliAction()
   {
-    $id = Pimf_Cli_Io::read('entry id', '/[1-9999]/');
+    $id = Io::read('entry id', '/[1-9999]/');
 
-    $res = Pimf_Registry::get('em')->entry->delete($id);
+    $res = Registry::get('em')->entry->delete($id);
 
     var_dump($res);
   }
 
   /**
    * A cli action for creating the blog-table.
-   * @throws Pimf_Controller_Exception
+   * @throws Controller_Exception
    */
   public function create_blog_tableCliAction()
   {
     try {
 
-      $res = Pimf_Registry::get('em')->getPDO()->exec(
+      $pdo = Registry::get('em')->getPDO();
+
+      $res = $pdo->exec(
         file_get_contents(
-          dirname(dirname(__FILE__)) .'/_database/create-table.sql'
+          dirname(dirname(__FILE__)) . '/_database/create-table.sql'
         )
-      );
+      ) or print_r($pdo->errorInfo(), true);
 
       var_dump($res);
 
-    } catch (PDOException $e) {
-      throw new Pimf_Controller_Exception($e->getMessage());
+    } catch (\PDOException $e) {
+      throw new Bomb($e->getMessage());
     }
   }
 }

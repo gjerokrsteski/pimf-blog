@@ -18,42 +18,18 @@ spl_autoload_register(
      * The mappings from class names to file paths.
      */
     static $mappings = array(
-      'myfirstblog_controller_blog'  => '/MyFirstBlog/Controller/Blog.php',
-      'myfirstblog_datamapper_entry' => '/MyFirstBlog/DataMapper/Entry.php',
-      'myfirstblog_model_entry'      => '/MyFirstBlog/Model/Entry.php'
+      'MyFirstBlog\\Controller\\Blog'  => '/MyFirstBlog/Controller/Blog.php',
+      'MyFirstBlog\\DataMapper\\Entry' => '/MyFirstBlog/DataMapper/Entry.php',
+      'MyFirstBlog\\Model\\Entry'      => '/MyFirstBlog/Model/Entry.php'
     );
-
-    /**
-     * The directories that use the naming convention.
-     */
-    static $directories = array('app');
 
     // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
     //  END OF USER CONFIGURATION!!!
     // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
-    // start formatting the class name in the PIMF's naming convention.
-    $cn = strtolower($class);
-
     // load the class from the static heap of classes.
-    if (isset($mappings[$cn])) {
-      return require __DIR__ . DIRECTORY_SEPARATOR . $mappings[$cn];
-    }
-
-    // THE FALLBACK - against lazy developers!!!
-    // we attempt to compute the path to the class for the.
-    // we spin through the registered directories and attempt
-    // to locate and load the class file into the script.
-    foreach ($directories as $directory) {
-      $file = __DIR__
-        . DIRECTORY_SEPARATOR
-        . $directory
-        . DIRECTORY_SEPARATOR
-        . str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
-
-      if (file_exists($file)) {
-        return require $file;
-      }
+    if (isset($mappings[$class])) {
+      return require __DIR__ . DIRECTORY_SEPARATOR . $mappings[$class];
     }
 
     return false;

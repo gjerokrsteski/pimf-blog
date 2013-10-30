@@ -1,8 +1,11 @@
 <?php
-class MyFirstBlog_DataMapper_Entry extends Pimf_DataMapper_Abstract
+namespace MyFirstBlog\DataMapper;
+use Pimf\DataMapper\Base;
+
+class Entry extends Base
 {
   /**
-   * @return MyFirstBlog_Model_Entry[]
+   * @return Entry[]
    */
   public function getAll()
   {
@@ -11,8 +14,8 @@ class MyFirstBlog_DataMapper_Entry extends Pimf_DataMapper_Abstract
     );
 
     $sth->setFetchMode(
-      PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
-      'MyFirstBlog_Model_Entry',
+      \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
+      '\MyFirstBlog\Model\Entry',
       array('title', 'content')
     );
 
@@ -23,7 +26,7 @@ class MyFirstBlog_DataMapper_Entry extends Pimf_DataMapper_Abstract
 
   /**
    * @param int $id
-   * @return MyFirstBlog_Model_Entry
+   * @return Entry
    * @throws OutOfRangeException
    */
   public function find($id)
@@ -36,11 +39,11 @@ class MyFirstBlog_DataMapper_Entry extends Pimf_DataMapper_Abstract
       'SELECT * FROM blog WHERE id = :id'
     );
 
-    $sth->bindValue(':id', $id, PDO::PARAM_INT);
+    $sth->bindValue(':id', $id, \PDO::PARAM_INT);
 
     $sth->setFetchMode(
-      PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
-      'MyFirstBlog_Model_Entry',
+      \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
+      '\MyFirstBlog\Model\Entry',
       array('title', 'content')
     );
 
@@ -50,7 +53,7 @@ class MyFirstBlog_DataMapper_Entry extends Pimf_DataMapper_Abstract
     $blogEntry = $sth->fetch();
 
     if ($blogEntry === false) {
-      throw new OutOfRangeException('no entry with id='.$id);
+      throw new \OutOfRangeException('no entry with id='.$id);
     }
 
     // set the protected id of user via reflection.
@@ -62,14 +65,14 @@ class MyFirstBlog_DataMapper_Entry extends Pimf_DataMapper_Abstract
   }
 
   /**
-   * @param MyFirstBlog_Model_Entry $blogEntry
+   * @param Entry $blogEntry
    * @return int
-   * @throws RuntimeException
+   * @throws \RuntimeException
    */
-  public function insert(MyFirstBlog_Model_Entry $blogEntry)
+  public function insert(\MyFirstBlog\Model\Entry $blogEntry)
   {
     if (true === $this->identityMap->hasObject($blogEntry)) {
-      throw new RuntimeException('Object has an ID, cannot insert.');
+      throw new \RuntimeException('Object has an ID, cannot insert.');
     }
 
     $sth = $this->db->prepare(
@@ -90,10 +93,10 @@ class MyFirstBlog_DataMapper_Entry extends Pimf_DataMapper_Abstract
   }
 
   /**
-   * @param MyFirstBlog_Model_Entry $blogEntry
+   * @param Entry $blogEntry
    * @return bool
    */
-  public function update(MyFirstBlog_Model_Entry $blogEntry)
+  public function update(\MyFirstBlog\Model\Entry $blogEntry)
   {
     $sth = $this->db->prepare(
       "UPDATE blog SET title = :title, content = :content WHERE id = :id"
@@ -101,7 +104,7 @@ class MyFirstBlog_DataMapper_Entry extends Pimf_DataMapper_Abstract
 
     $sth->bindValue(':title', $blogEntry->getTitle());
     $sth->bindValue(':content', $blogEntry->getContent());
-    $sth->bindValue(':id', $blogEntry->getId(), PDO::PARAM_INT);
+    $sth->bindValue(':id', $blogEntry->getId(), \PDO::PARAM_INT);
 
     $sth->execute();
 
@@ -122,7 +125,7 @@ class MyFirstBlog_DataMapper_Entry extends Pimf_DataMapper_Abstract
       "DELETE FROM blog WHERE id = :id"
     );
 
-    $sth->bindValue(':id', $id, PDO::PARAM_INT);
+    $sth->bindValue(':id', $id, \PDO::PARAM_INT);
     $sth->execute();
 
     if ($sth->rowCount() == 0) {
