@@ -23,7 +23,7 @@ class Blog extends Base
     echo new View(
       'blog.phtml',
       array(
-        'blog_title'   => 'This is my firs Blog with PIMF',
+        'blog_title'   => 'This is my firs Blog',
         'blog_content' => $view,
         'blog_footer'  => 'A Blog about cool and thin framework'
       )

@@ -50,6 +50,7 @@ $config_app = array(
     'name' => 'MyFirstBlog',
     'key' => 'some5secret5key5here',
     'default_controller' => 'blog', //the name of the fallback controller
+	  'routeable' => true
   ),
 
   /*
