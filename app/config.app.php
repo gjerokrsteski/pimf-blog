@@ -85,7 +85,7 @@ $config_app = array(
   */
   'error' => array(
     'ignore_levels' => array(E_USER_DEPRECATED),
-    'debug_info' => false, // true=if developing false=if production
+    'debug_info' => false, // true = if developing - false = if production
     'log' => true,
   ),
 
