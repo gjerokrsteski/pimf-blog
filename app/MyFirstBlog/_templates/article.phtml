@@ -2,10 +2,10 @@
   <h2><?php echo $this->title ?></h2>
   <p><?php echo $this->content ?></p>
   <p>
-    <a href="/blog/listentries/"><?php echo $this->back_link_title ?></a>
+    <a href="<?php echo url('/blog/listentries') ?>"><?php echo $this->back_link_title ?></a>
     &nbsp;&nbsp;
-    <a href="/blog/delete/<?php echo $this->id ?>"><?php echo $this->delete_link_title ?></a>
+    <a href="<?php echo url('/blog/delete', array($this->id)) ?>"><?php echo $this->delete_link_title ?></a>
     &nbsp;&nbsp;
-    <a href="/blog/json/<?php echo $this->id ?>"><?php echo $this->json_link_title ?></a>
+    <a href="<?php echo url('/blog/json', array($this->id)) ?>"><?php echo $this->json_link_title ?></a>
   </p>
 </article>
