@@ -23,9 +23,9 @@ class Blog extends Base
     echo new View(
       'blog.phtml',
       array(
-        'blog_title'   => 'This is my firs Blog',
+        'blog_title'   => 'Welcome to PIMF blog',
         'blog_content' => $view,
-        'blog_footer'  => 'A Blog about cool and thin framework'
+        'blog_footer'  => 'Learn the terrain and create something beautiful!'
       )
     );
   }
@@ -48,7 +48,7 @@ class Blog extends Base
   /**
    * Renders a single entry from the list.
    *
-   * @throws Controller_Exception
+   * @throws \Pimf\Controller\Exception
    */
   public function showentryAction()
   {
@@ -71,7 +71,6 @@ class Blog extends Base
     $viewSingleEntry
       ->pump($entry->toArray())
       ->assign('back_link_title', 'Back to overview')
-      ->assign('delete_link_title', 'Delete this entry')
       ->assign('json_link_title', 'Show as JSON');
 
     echo $this->loadMainView($viewSingleEntry);
@@ -101,7 +100,7 @@ class Blog extends Base
       throw new Bomb('not valid entry for "id"');
     }
 
-    /* @var $em EntityManager */
+    /* @var $em \Pimf\EntityManager */
     $em = Registry::get('em');
 
     // find entry by id
