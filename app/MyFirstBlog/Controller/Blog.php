@@ -163,7 +163,7 @@ class Blog extends Base
 
   /**
    * A cli action for creating the blog-table.
-   * @throws Controller_Exception
+   * @throws \Pimf\Controller\Exception
    */
   public function create_blog_tableCliAction()
   {
