@@ -9,7 +9,7 @@ class Entry extends Base
    */
   public function getAll()
   {
-    $sth = $this->db->prepare(
+    $sth = $this->pdo->prepare(
       'SELECT * FROM blog'
     );
 
@@ -25,9 +25,10 @@ class Entry extends Base
   }
 
   /**
-   * @param int $id
-   * @return Entry
-   * @throws OutOfRangeException
+   * @param $id
+   *
+   * @return mixed|object
+   * @throws \OutOfRangeException
    */
   public function find($id)
   {
@@ -35,7 +36,7 @@ class Entry extends Base
       return $this->identityMap->getObject($id);
     }
 
-    $sth = $this->db->prepare(
+    $sth = $this->pdo->prepare(
       'SELECT * FROM blog WHERE id = :id'
     );
 
@@ -65,7 +66,8 @@ class Entry extends Base
   }
 
   /**
-   * @param Entry $blogEntry
+   * @param \MyFirstBlog\Model\Entry $blogEntry
+   *
    * @return int
    * @throws \RuntimeException
    */
@@ -75,7 +77,7 @@ class Entry extends Base
       throw new \RuntimeException('Object has an ID, cannot insert.');
     }
 
-    $sth = $this->db->prepare(
+    $sth = $this->pdo->prepare(
       "INSERT INTO blog (title, content) VALUES (:title, :content)"
     );
 
@@ -83,7 +85,7 @@ class Entry extends Base
     $sth->bindValue(':content', $blogEntry->getContent());
     $sth->execute();
 
-    $id = (int)$this->db->lastInsertId();
+    $id = (int)$this->pdo->lastInsertId();
 
     $blogEntry = $this->reflect($blogEntry, $id);
 
@@ -93,12 +95,13 @@ class Entry extends Base
   }
 
   /**
-   * @param Entry $blogEntry
+   * @param \MyFirstBlog\Model\Entry $blogEntry
+   *
    * @return bool
    */
   public function update(\MyFirstBlog\Model\Entry $blogEntry)
   {
-    $sth = $this->db->prepare(
+    $sth = $this->pdo->prepare(
       "UPDATE blog SET title = :title, content = :content WHERE id = :id"
     );
 
@@ -121,7 +124,7 @@ class Entry extends Base
    */
   public function delete($id)
   {
-    $sth = $this->db->prepare(
+    $sth = $this->pdo->prepare(
       "DELETE FROM blog WHERE id = :id"
     );
 
