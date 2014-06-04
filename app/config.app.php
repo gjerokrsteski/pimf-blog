@@ -46,14 +46,27 @@ return array(
   | Application meta
   |------------------------------------------------------------------------
   */
-  'app' => array(
-    'name'               => 'MyFirstBlog',
-    'key'                => 'some5secret5key5here', // application key
-    'default_controller' => 'blog', // the name of the fallback controller
-    'routeable'          => true, // get cleaner URLs or not
-    'url'                => 'http://localhost', // URL used to access your application without a trailing slash.
-    'index'              => '', // if you are using mod_rewrite to get cleaner URLs let it empty otherwise set index.php
-    'asset_url'          => '', // the base URL used for your application's asset files
+  'app' => array (
+
+      'name'               => 'MyFirstBlog',
+
+      // secret application key or try out http://randomkeygen.com
+      'key'                => 'some5secret5key5here',
+
+      // the name of the fallback controller
+      'default_controller' => 'blog',
+
+      // get cleaner URLs or not
+      'routeable'          => true,
+
+      // URL used to access your application without a trailing slash.
+      'url'                => 'http://localhost',
+
+      // if using mod_rewrite to get cleaner URLs let it empty otherwise set index.php
+      'index'              => '',
+
+      // the base URL used for your application's asset files
+      'asset_url'          => '',
   ),
 
   /*
@@ -83,8 +96,14 @@ return array(
   |------------------------------------------------------------------------
   */
   'error' => array(
+
+    // set which error-levels should be ignored
+    // find more http://de2.php.net/manual/errorfunc.constants.php
     'ignore_levels' => array(E_USER_DEPRECATED),
-    'debug_info' => true, // true = if developing - false = if production
+
+    // developing=true production=false
+    'debug_info' => true,
+
     'log' => true,
   ),
 
@@ -95,8 +114,9 @@ return array(
   */
   'session' => array(
 
-      // Session storage 'cookie', 'file', 'pdo', 'memcached', 'apc', 'redis', 'dba', 'wincache', 'memory'
-      'storage' => 'file',
+      // Session storage 'cookie', 'file', 'pdo', 'memcached', 'apc', 'redis',
+      // 'dba', 'wincache', 'memory'  or '' for non
+      'storage' => '',
 
       // If using file storage - default is null
       'storage_path' => 'app/MyFirstBlog/_session/',
@@ -137,8 +157,9 @@ return array(
   */
   'cache' => array(
 
-      // Cache storage 'pdo', 'file', 'memcached', 'apc', 'redis', 'dba', 'wincache', 'memory'
-      'storage' => 'file',
+      // Cache storage 'pdo', 'file', 'memcached', 'apc', 'redis', 'dba',
+      // 'wincache', 'memory' or '' for non
+      'storage' => '',
 
       // If using file storage - default is null
       'storage_path' => 'app/MyFirstBlog/_cache/',
