@@ -21,7 +21,7 @@ Installation & Configuration
 ```php  
   git submodule --quiet sync
   git submodule --quiet update --force --init --recursive
-  git submodule foreach git pull --force origin master
+    git submodule foreach git pull --force origin v1.9.0
 ```
 4. php pimf core:init
 
