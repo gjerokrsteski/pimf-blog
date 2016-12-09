@@ -60,7 +60,7 @@ return array(
       'routeable'          => true,
 
       // URL used to access your application without a trailing slash.
-      'url'                => 'http://localhost:8000',
+      'url'                => '/',
 
       // if using mod_rewrite to get cleaner URLs let it empty otherwise set index.php
       'index'              => '',
