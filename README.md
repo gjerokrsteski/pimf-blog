@@ -22,9 +22,13 @@ Installation & Configuration
   git submodule --quiet sync
   git submodule --quiet update --force --init --recursive
 ```
-4. php pimf core:init
+4. php pimf core:init 
 
-5. Navigate to your application in a web browser. If all is well, you should see a pretty PIMF splash page. Get ready - there is lot more to learn!
+5. php pimf blog:create_blog_table
+
+6. php pimf blog:insert
+
+7. Navigate to your application in a web browser. If all is well, you should see a pretty PIMF splash page. Get ready - there is lot more to learn!
        
 Alternatively you can run the PHP's built-in web server that is provided since PHP 5.4.0
   
