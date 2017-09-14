@@ -102,7 +102,7 @@ return array(
     'ignore_levels' => array(E_USER_DEPRECATED),
 
     // developing=true production=false
-    'debug_info' => true,
+    'debug_info' => false,
 
     'log' => true,
   ),
@@ -114,7 +114,7 @@ return array(
     */
     'logging' => array(
         //Logging storage 'file' or 'stdout'
-        'storage' => 'file',
+        'storage' => 'stdout',
     ),
 
   /*
